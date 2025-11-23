@@ -484,3 +484,337 @@ input[type="file"] {
   cursor: pointer;
   font-size: inherit;
 }
+
+/* MANTIENI I CODICI DI BASE CHE AVEVI, SOSTITUISCI DA QUI IN GIÙ */
+
+/* --- STILI AGGIUNTIVI PER ANTEPRIME --- */
+
+.big-upload {
+  padding: 30px 60px;
+  font-size: 1.5rem;
+  background: #ff3b30;
+  /* iLovePDF Red */
+  box-shadow: 0 15px 30px rgba(255, 59, 48, 0.3);
+}
+
+.big-upload:hover {
+  background: #e6352b;
+  transform: scale(1.02);
+}
+
+.drop-text {
+  margin-top: 15px;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* TOOLBAR */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.back-btn {
+  background: #f2f2f7;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #555;
+}
+
+.count-badge {
+  font-weight: 700;
+  color: #1d1d1f;
+}
+
+.add-btn-icon {
+  background: #007AFF;
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-btn-icon:hover {
+  transform: scale(1.1);
+}
+
+/* GRIGLIA ANTEPRIME */
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.preview-card {
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.thumb-box {
+  width: 100%;
+  aspect-ratio: 1 / 1.4;
+  /* Formato foglio A4 */
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.thumb-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-color: #007AFF;
+}
+
+.thumb-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 5px;
+}
+
+.generic-icon {
+  color: #ccc;
+}
+
+.card-delete {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.thumb-box:hover .card-delete {
+  opacity: 1;
+}
+
+.card-delete:hover {
+  background: #ff3b30;
+}
+
+.page-number {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+}
+
+.card-name {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* PULSANTI AZIONE STILE ILOVEPDF */
+.ilove-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ilove-btn.primary {
+  background: #1d1d1f;
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ilove-btn.primary:hover {
+  background: black;
+  transform: scale(1.02);
+}
+
+.grid-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.ilove-card {
+  background: white;
+  border: 1px solid transparent;
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.ilove-card:hover {
+  transform: translateY(-3px);
+  border-color: #007AFF;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.ilove-card span {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+/* LOADING */
+.processing-box {
+  padding: 40px;
+  text-align: center;
+  color: #007AFF;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- STILI PER I PULSANTI DI MOVIMENTO (NEW) --- */
+
+.overlay-actions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+  transition: 0.2s;
+  border-radius: 8px;
+}
+
+.thumb-box:hover .overlay-actions {
+  opacity: 1;
+}
+
+.move-btn,
+.delete-btn-mini {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: 0.2s;
+}
+
+.move-btn {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.move-btn:hover {
+  background: #007AFF;
+}
+
+.delete-btn-mini {
+  background: #ff3b30;
+}
+
+.delete-btn-mini:hover {
+  transform: scale(1.1);
+}
+
+/* Nascondiamo il vecchio pulsante delete che era in alto a destra per usare quello nuovo centrale */
+.card-delete {
+  display: none;
+}
+
+/* Stile icone generiche */
+.generic-icon {
+  color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
