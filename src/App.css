@@ -1,28 +1,32 @@
 body {
-  background-color: #f3f4f6;
-  font-family: sans-serif;
+  background: #f3f4f6;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
   justify-content: center;
-  padding-top: 50px;
+  min-height: 100vh;
+  padding-top: 40px;
 }
 
 .container {
   background: white;
-  padding: 40px;
-  border-radius: 12px;
-  width: 500px;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 500px;
+  height: fit-content;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  color: #111827;
-  margin-bottom: 5px;
+  color: #1f2937;
+  margin: 0;
+  text-align: center;
 }
 
 p {
   color: #6b7280;
-  margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 .upload-area label {
@@ -30,13 +34,17 @@ p {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 40px;
+  padding: 30px;
   border: 2px dashed #3b82f6;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   color: #3b82f6;
-  font-weight: bold;
   background: #eff6ff;
+  transition: 0.2s;
+}
+
+.upload-area label:hover {
+  background: #dbeafe;
 }
 
 .upload-area input {
@@ -44,41 +52,62 @@ p {
 }
 
 .files-list {
-  margin-top: 20px;
-  text-align: left;
+  margin: 20px 0;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 .file-item {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  border-bottom: 1px solid #eee;
+  background: #f9fafb;
+  margin-bottom: 5px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
 }
 
 .file-item button {
   border: none;
   background: none;
-  color: red;
+  color: #ef4444;
   cursor: pointer;
 }
 
-.btn-merge {
-  background: #111827;
-  color: white;
-  width: 100%;
+/* NUOVO: Griglia per i 3 pulsanti */
+.buttons-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.btn-action {
   padding: 15px;
+  border: none;
   border-radius: 8px;
-  font-size: 16px;
-  margin-top: 20px;
+  font-weight: bold;
   cursor: pointer;
   display: flex;
   justify-content: center;
-  gap: 10px;
   align-items: center;
-  border: none;
+  gap: 10px;
+  color: white;
+  background: #111827;
+  transition: 0.2s;
 }
 
-.btn-merge:disabled {
-  background: #9ca3af;
+.btn-action:hover {
+  background: #000;
+}
+
+.btn-secondary {
+  background: #4b5563;
+}
+
+.btn-secondary:hover {
+  background: #374151;
+}
+
+.btn-action:disabled {
+  background: #d1d5db;
   cursor: not-allowed;
 }
