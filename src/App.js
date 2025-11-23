@@ -5,7 +5,7 @@ import JSZip from 'jszip';
 import download from 'downloadjs';
 import { auth, loginWithGoogle, logout, db } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, updateDoc, increment } from 'firebase/firestore';
+import { doc, updateDoc, increment, getDoc, setDoc } from 'firebase/firestore'; // Aggiunti getDoc e setDoc
 import {
   Upload, Layers, Scissors, RotateCw, Image as ImageIcon,
   Trash2, LogOut, User, Type, FileImage, Grid, ArrowLeft, ArrowRight,
@@ -40,8 +40,32 @@ function App() {
   const [toolParams, setToolParams] = useState({});
   const [totalPages, setTotalPages] = useState(0);
 
+  // --- EFFETTO LOGIN (Gestisce anche il ritorno da iPhone) ---
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (u) => setUser(u));
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+
+      // SE L'UTENTE È LOGGATO, CONTROLLA/CREA IL DATABASE
+      if (currentUser) {
+        try {
+          const userRef = doc(db, "users", currentUser.uid);
+          const userSnap = await getDoc(userRef);
+
+          if (!userSnap.exists()) {
+            // Crea profilo se non esiste
+            await setDoc(userRef, {
+              name: currentUser.displayName,
+              email: currentUser.email,
+              joinedAt: new Date(),
+              filesProcessed: 0,
+              isPremium: false
+            });
+          }
+        } catch (e) {
+          console.error("Errore DB (non bloccante):", e);
+        }
+      }
+    });
     return () => unsubscribe();
   }, []);
 
@@ -102,7 +126,7 @@ function App() {
     }
   };
 
-  // --- EDITOR TOOLS (Extract & Rotate) ---
+  // --- EDITOR TOOLS ---
   const openExtractTool = async () => {
     setIsProcessing(true);
     try {
@@ -116,7 +140,6 @@ function App() {
   };
 
   const executeRangeExtraction = async () => {
-    // Parsing Range (es. 1-3, 5)
     const pages = new Set();
     toolParams.ranges.split(',').forEach(part => {
       const p = part.trim();
@@ -129,9 +152,7 @@ function App() {
       }
     });
     const indices = Array.from(pages).sort((a, b) => a - b);
-
     if (indices.length === 0) return alert("Intervallo non valido!");
-
     setIsProcessing(true);
     try {
       const bytes = await files[0].file.arrayBuffer();
@@ -160,7 +181,7 @@ function App() {
     setIsProcessing(false);
   };
 
-  // --- DIRECT TOOLS (One Click) ---
+  // --- DIRECT TOOLS ---
   const mergePDFs = async () => {
     setIsProcessing(true);
     try {
@@ -317,7 +338,7 @@ function App() {
 
       <nav className="glass-nav">
         <div className="logo" onClick={() => { setActiveTool(null); setFiles([]) }} style={{ cursor: 'pointer' }}>
-          PDF PRO <span style={{ color: '#ff3b30', fontSize: '0.6em', verticalAlign: 'super' }}>MAX</span>
+          PDF PRO <span style={{ color: '#ff3b30', fontSize: '0.6em', verticalAlign: 'super' }}>ULTRA</span>
         </div>
         {user ? (
           <div className="user-menu">
@@ -348,7 +369,6 @@ function App() {
         ) : (
           <div className="workspace fade-in">
 
-            {/* TOOLBAR E LISTA FILE (Visibili solo se NO editor attivo) */}
             {!activeTool && (
               <>
                 <div className="toolbar">
@@ -365,14 +385,11 @@ function App() {
                     <div key={item.id} className="preview-card">
                       <div className="thumb-box">
                         {item.previewUrl ? <img src={item.previewUrl} alt="Prev" /> : <div className="generic-icon"><TextIcon size={40} /></div>}
-
-                        {/* ICONE SPOSTAMENTO E CANCELLAZIONE (FIX CENTRALE) */}
                         <div className="overlay-actions">
                           {i > 0 && <button onClick={() => moveFile(i, -1)} className="move-btn"><ArrowLeft size={14} /></button>}
                           <button onClick={() => removeFile(item.id)} className="delete-btn-mini"><Trash2 size={16} /></button>
                           {i < files.length - 1 && <button onClick={() => moveFile(i, 1)} className="move-btn"><ArrowRight size={14} /></button>}
                         </div>
-
                         <div className="page-number">{i + 1}</div>
                       </div>
                       <div className="card-name">{item.name}</div>
@@ -421,31 +438,23 @@ function App() {
               </div>
             )}
 
-            {/* --- GRIGLIA FUNZIONI (TUTTE RESTAURATE) --- */}
             {!activeTool && !isProcessing && (
               <div className="functions-panel">
-
-                {/* GRUPPO PRINCIPALE (Multi-file) */}
                 <div className="action-group">
                   {allPDFs && files.length > 1 && <button onClick={mergePDFs} className="ilove-btn primary"><Layers size={20} /> UNISCI PDF</button>}
                   {allImages && <button onClick={imagesToPDF} className="ilove-btn primary"><ImageIcon size={20} /> CREA PDF</button>}
                   {isTxt && <button onClick={txtToPDF} className="ilove-btn primary"><Type size={20} /> CONVERTI PDF</button>}
                 </div>
 
-                {/* GRIGLIA OPZIONI SINGOLO PDF */}
                 {files.length === 1 && allPDFs && (
                   <div className="grid-options">
-                    {/* Editor Mode Tools */}
                     <button onClick={openExtractTool} className="ilove-card"><LayoutTemplate size={24} color="#34C759" /> <span>Dividi/Estrai</span></button>
                     <button onClick={openRotateTool} className="ilove-card"><RotateCw size={24} color="#FF9500" /> <span>Ruota</span></button>
-
-                    {/* Direct Tools */}
                     <button onClick={pdfToImages} className="ilove-card"><FileImage size={24} color="#E879F9" /> <span>PDF in JPG</span></button>
                     <button onClick={addPageNumbers} className="ilove-card"><Hash size={24} color="#007AFF" /> <span>Numera Pag.</span></button>
                     <button onClick={addWatermark} className="ilove-card"><Type size={24} color="#FF3B30" /> <span>Watermark</span></button>
                     <button onClick={reversePDF} className="ilove-card"><RefreshCcw size={24} color="#5856D6" /> <span>Inverti</span></button>
                     <button onClick={flattenPDF} className="ilove-card"><Wrench size={24} color="#8E8E93" /> <span>Ripara</span></button>
-                    <button onClick={() => alert("Funzione Grayscale in arrivo!")} className="ilove-card"><Droplet size={24} color="#333" /> <span>Grayscale</span></button>
                   </div>
                 )}
               </div>

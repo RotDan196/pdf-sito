@@ -564,3 +564,130 @@ input[type="file"] {
   align-items: center;
   justify-content: center;
 }
+
+/* --- NUOVO STILE INFO SECTION (PREMIUM) --- */
+
+.info-wrapper {
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+.info-header {
+  margin-bottom: 40px;
+}
+
+.info-header h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #1d1d1f 0%, #434344 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.info-header p {
+  font-size: 1.1rem;
+  color: #86868b;
+}
+
+/* GRIGLIA */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 50px;
+}
+
+/* CARD PREMIUM */
+.info-card-premium {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 24px;
+  text-align: left;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-card-premium:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.info-card-premium h3 {
+  font-size: 1.2rem;
+  margin: 15px 0 10px 0;
+  color: #1d1d1f;
+}
+
+.info-card-premium p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #515154;
+  margin: 0;
+}
+
+/* ICONE COLORATE */
+.icon-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.icon-badge.blue {
+  background: rgba(0, 122, 255, 0.1);
+}
+
+.icon-badge.yellow {
+  background: rgba(255, 149, 0, 0.1);
+}
+
+.icon-badge.purple {
+  background: rgba(175, 82, 222, 0.1);
+}
+
+/* BARRA DI FIDUCIA */
+.trust-bar {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  opacity: 0.7;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.footer-note {
+  font-size: 0.8rem;
+  color: #999;
+  margin-top: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .info-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .trust-bar {
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+  }
+}
