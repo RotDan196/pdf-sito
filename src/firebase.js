@@ -23,27 +23,40 @@ const googleProvider = new GoogleAuthProvider();
 // Funzione Login
 export const loginWithGoogle = async () => {
     try {
+        // 1. PROVIAMO IL LOGIN (Parte critica)
         const result = await signInWithPopup(auth, googleProvider);
         const user = result.user;
 
-        // Salviamo/Aggiorniamo l'utente nel Database in modo sicuro
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
+        // 2. PROVIAMO A SALVARE NEL DB (Parte opzionale)
+        // Mettiamo un try/catch interno così se fallisce il DB, il login resta valido!
+        try {
+            const userRef = doc(db, "users", user.uid);
+            const userSnap = await getDoc(userRef);
 
-        if (!userSnap.exists()) {
-            // Se è la prima volta, creiamo il profilo
-            await setDoc(userRef, {
-                name: user.displayName,
-                email: user.email,
-                joinedAt: new Date(),
-                filesProcessed: 0, // Statistica
-                isPremium: false
-            });
+            if (!userSnap.exists()) {
+                await setDoc(userRef, {
+                    name: user.displayName,
+                    email: user.email,
+                    joinedAt: new Date(),
+                    filesProcessed: 0,
+                    isPremium: false
+                });
+            }
+        } catch (dbError) {
+            // Se il database fallisce (es. permessi), lo scriviamo in console ma NON fermiamo l'utente
+            console.error("Login riuscito, ma impossibile salvare nel DB (Controlla le regole Firestore):", dbError);
         }
+
+        // 3. RITORNIAMO L'UTENTE (Successo!)
         return user;
+
     } catch (error) {
-        console.error(error);
-        alert("Errore durante il login");
+        // Questo scatta solo se fallisce proprio il LOGIN (es. chiudi il popup)
+        console.error("Errore critico Login:", error);
+        // Non mostriamo alert se l'utente ha semplicemente chiuso la finestra
+        if (error.code !== 'auth/popup-closed-by-user') {
+            alert("Impossibile accedere: " + error.message);
+        }
     }
 };
 
