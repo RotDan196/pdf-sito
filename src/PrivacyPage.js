@@ -1,48 +1,57 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import { X, ShieldCheck, Lock, EyeOff } from 'lucide-react';
+import './App.css';
 
 const PrivacyPage = ({ onClose }) => {
+    // Chiudi se clicchi fuori dal box bianco
+    const handleBackdropClick = (e) => {
+        if (e.target.className === 'modal-overlay') onClose();
+    };
+
     return (
-        <div className="glass-container" style={{ textAlign: 'left', maxHeight: '85vh', overflowY: 'auto', position: 'relative' }}>
+        <div className="modal-overlay" onClick={handleBackdropClick}>
+            <div className="modal-content">
+                <button className="close-modal" onClick={onClose}><X size={20} /></button>
 
-            {/* Header del Modale */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', borderBottom: '1px solid #eee', paddingBottom: '15px' }}>
-                <h2 style={{ margin: 0, fontSize: '1.5rem' }}>Privacy & Termini</h2>
-                <button onClick={onClose} style={{ background: '#f5f5f7', border: 'none', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                    <X size={20} color="#333" />
-                </button>
-            </div>
+                <h2 style={{ marginTop: 0, fontSize: '2rem', marginBottom: '10px' }}>Privacy & Sicurezza</h2>
+                <p style={{ color: '#666', marginBottom: '30px' }}>La tua fiducia è la nostra priorità. Ecco come gestiamo i tuoi dati.</p>
 
-            {/* Contenuto Testuale */}
-            <div style={{ fontSize: '0.95rem', lineHeight: '1.7', color: '#333' }}>
-                <p><strong>Ultimo aggiornamento:</strong> {new Date().toLocaleDateString()}</p>
+                <div style={{ display: 'grid', gap: '20px' }}>
+                    <div style={{ background: '#F9F9FB', padding: '20px', borderRadius: '12px', display: 'flex', gap: '15px' }}>
+                        <Lock color="#007AFF" size={24} style={{ flexShrink: 0 }} />
+                        <div>
+                            <h3 style={{ margin: '0 0 5px 0' }}>Crittografia Client-Side</h3>
+                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#555' }}>
+                                I tuoi file <strong>non lasciano mai il tuo dispositivo</strong>.
+                                Tutto il processo avviene nel browser. Non abbiamo server che vedono i tuoi PDF.
+                            </p>
+                        </div>
+                    </div>
 
-                <h3>1. Elaborazione Locale (Client-Side)</h3>
-                <p>
-                    A differenza di altri servizi, <strong>[Tuo Sito]</strong> non carica i tuoi file su nessun server cloud.
-                    Tutto il processo di modifica (unione, divisione, rotazione) avviene all'interno del tuo browser utilizzando JavaScript.
-                    Ciò significa che i tuoi documenti sensibili non lasciano mai il tuo computer.
-                </p>
+                    <div style={{ background: '#F9F9FB', padding: '20px', borderRadius: '12px', display: 'flex', gap: '15px' }}>
+                        <EyeOff color="#007AFF" size={24} style={{ flexShrink: 0 }} />
+                        <div>
+                            <h3 style={{ margin: '0 0 5px 0' }}>Nessuna raccolta dati</h3>
+                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#555' }}>
+                                Non conserviamo copie dei tuoi documenti. Una volta chiusa la pagina, tutto svanisce.
+                            </p>
+                        </div>
+                    </div>
 
-                <h3>2. Raccolta Dati</h3>
-                <p>
-                    Non raccogliamo dati personali o file. Tuttavia, utilizziamo servizi terzi per il funzionamento del sito:
-                </p>
-                <ul style={{ paddingLeft: '20px', color: '#555' }}>
-                    <li><strong>Hosting (Vercel):</strong> Può raccogliere log anonimi di accesso (IP) per sicurezza.</li>
-                    <li><strong>Google AdSense:</strong> Utilizza i cookie per mostrare annunci pertinenti.</li>
-                </ul>
+                    <div style={{ background: '#F9F9FB', padding: '20px', borderRadius: '12px', display: 'flex', gap: '15px' }}>
+                        <ShieldCheck color="#007AFF" size={24} style={{ flexShrink: 0 }} />
+                        <div>
+                            <h3 style={{ margin: '0 0 5px 0' }}>Servizi Terzi</h3>
+                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#555' }}>
+                                Usiamo Firebase (Google) solo per il login e per contare quanti file elabori (statistica anonima).
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-                <h3>3. Cookie DoubleClick</h3>
-                <p>
-                    Google utilizza i cookie per migliorare la pubblicità. Gli utenti possono scegliere di non utilizzare il cookie DART visitando le impostazioni degli annunci Google.
-                </p>
-
-                <hr style={{ border: 'none', borderTop: '1px solid #eee', margin: '30px 0' }} />
-
-                <p style={{ fontSize: '0.85rem', color: '#888' }}>
-                    Per contatti o rimozione dati (anche se non ne conserviamo): <strong>danielrot190607@gmail.com</strong>
-                </p>
+                <div style={{ marginTop: '30px', fontSize: '0.8rem', color: '#999', borderTop: '1px solid #eee', paddingTop: '20px' }}>
+                    Questo sito è conforme al GDPR. Per domande legali: [tua-email@esempio.com]
+                </div>
             </div>
         </div>
     );
